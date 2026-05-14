@@ -1,0 +1,17 @@
+build/
+build_isolated/
+devel/
+devel_isolated/
+.ros/
+.vscode-server/
+catkin_ws/build/FAST_LIO/CMakeFiles//fastlio_mapping.dir/src/laserMapping.cpp.o
+
+*.o
+*.logcatkin_ws/build/
+catkin_ws/build_isolated/
+catkin_ws/devel/
+catkin_ws/devel_isolated/
+.ros/
+.vscode-server/
+*.o
+*.log

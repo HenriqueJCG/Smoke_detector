@@ -1,0 +1,24 @@
+<launch>
+    <rosparam command="load" file="$(find ig_lio)/config/bg_velodyne.yaml" />
+
+    <node pkg="ig_lio" type="ig_lio_node" name="ig_lio_node" output="screen" />
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ig_lio)/rviz/lio_show.rviz" required="true" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 body base_link" />
+    <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
+    <node pkg="detection_alg" type="detection.py" name="detection_node" output="screen">
+		<param name="mode" value="ouster"/>
+	</node>
+
+    <arg name="path" default="/home/Datasets/"/>
+
+    <arg name = "file_0" default = "Forest_Eskilstuna/Eskilstuna_Forest_0.bag"/> 
+    <arg name = "file_1" default = "Forest_Eskilstuna/Eskilstuna_Forest_1.bag"/> 
+    <arg name = "file_2" default = "Forest_Eskilstuna/Eskilstuna_Forest_2.bag"/> 
+    <arg name = "file_3" default = "Forest_Eskilstuna/Eskilstuna_Forest_3.bag"/> 
+    <arg name = "file_4" default = "Forest_Eskilstuna/Eskilstuna_Forest_4.bag"/> 
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
+    </node>
+</launch>

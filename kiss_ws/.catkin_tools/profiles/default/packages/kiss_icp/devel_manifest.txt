@@ -1,0 +1,5 @@
+kiss-icp/ros
+/root/kiss_ws/devel/.private/kiss_icp/lib/pkgconfig/kiss_icp.pc /root/kiss_ws/devel/lib/pkgconfig/kiss_icp.pc
+/root/kiss_ws/devel/.private/kiss_icp/lib/kiss_icp/odometry_node /root/kiss_ws/devel/lib/kiss_icp/odometry_node
+/root/kiss_ws/devel/.private/kiss_icp/share/kiss_icp/cmake/kiss_icpConfig.cmake /root/kiss_ws/devel/share/kiss_icp/cmake/kiss_icpConfig.cmake
+/root/kiss_ws/devel/.private/kiss_icp/share/kiss_icp/cmake/kiss_icpConfig-version.cmake /root/kiss_ws/devel/share/kiss_icp/cmake/kiss_icpConfig-version.cmake

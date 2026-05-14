@@ -1,0 +1,5 @@
+genz-icp/ros
+/root/kiss_ws/devel/.private/genz_icp/lib/pkgconfig/genz_icp.pc /root/kiss_ws/devel/lib/pkgconfig/genz_icp.pc
+/root/kiss_ws/devel/.private/genz_icp/lib/genz_icp/odometry_node /root/kiss_ws/devel/lib/genz_icp/odometry_node
+/root/kiss_ws/devel/.private/genz_icp/share/genz_icp/cmake/genz_icpConfig.cmake /root/kiss_ws/devel/share/genz_icp/cmake/genz_icpConfig.cmake
+/root/kiss_ws/devel/.private/genz_icp/share/genz_icp/cmake/genz_icpConfig-version.cmake /root/kiss_ws/devel/share/genz_icp/cmake/genz_icpConfig-version.cmake

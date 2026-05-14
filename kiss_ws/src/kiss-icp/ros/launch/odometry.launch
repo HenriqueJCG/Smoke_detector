@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- ROS paramaters -->
+  <arg name="bagfile" default=""/>
+  <arg name="visualize" default="true"/>
+  <arg name="odom_frame" default="odom"/>
+  <arg name="base_frame" default=""/>
+  <arg name="topic" default=""/>
+  <arg name="publish_odom_tf" default="false"/>
+
+  <!-- KISS-ICP paramaters -->
+  <arg name="deskew" default="false"/>
+  <arg name="max_range" default="100.0" />
+  <arg name="min_range" default="5.0" />
+  <arg name="voxel_size" default="" />
+
+  <arg name="dataset_type" default="livox" />
+
+  <!-- Odometry node -->
+  <node pkg="kiss_icp" type="odometry_node" name="odometry_node" output="screen">
+    <!-- ROS params -->
+    <remap from="pointcloud_topic" to="$(arg topic)"/>
+    <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+    <param name="publish_odom_tf" value="$(arg publish_odom_tf)"/>
+    <param name="visualize" value="$(arg visualize)"/>
+    <!-- KISS-ICP params -->
+    <param name="max_range" value="$(arg max_range)"/>
+    <param name="min_range" value="$(arg min_range)"/>
+    <param name="deskew" value="$(arg deskew)"/>
+    <param name="voxel_size" value="$(arg voxel_size)"/>
+    <param name="max_points_per_voxel" value="20"/>
+    <param name="initial_threshold" value="2.0"/>
+    <param name="min_motion_th" value="0.1" />
+  </node>
+
+  <!-- Rosbag player, if bagfile argument was specified -->
+  <group if="$(eval bagfile != '')">
+    <node pkg="rosbag" type="play" name="player" args="$(arg bagfile)" output="screen"/>
+  </group>
+
+  <!-- Visualizer -->
+  <group if="$(arg visualize)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
+    <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
+    <node pkg="detection_alg" type="detection.py" name="detection_node" output="screen">
+		  <param name="mode" value="$(arg dataset_type)"/>
+	  </node>
+  </group>
+
+  <arg name="path" default="/home/Datasets/"/>
+
+  <group if="$(eval arg('dataset_type') == 'ouster')">
+    <arg name = "file_0" default = "Forest_Eskilstuna/Eskilstuna_Forest_0.bag"/> 
+    <arg name = "file_1" default = "Forest_Eskilstuna/Eskilstuna_Forest_1.bag"/> 
+    <arg name = "file_2" default = "Forest_Eskilstuna/Eskilstuna_Forest_2.bag"/> 
+    <arg name = "file_3" default = "Forest_Eskilstuna/Eskilstuna_Forest_3.bag"/> 
+    <arg name = "file_4" default = "Forest_Eskilstuna/Eskilstuna_Forest_4.bag"/> 
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
+    </node>
+  </group>
+
+  <group if="$(eval arg('dataset_type') == 'livox')">
+    <node pkg="livox_to_pointcloud2" type="livox_to_pointcloud2_node" name="livox_to_pointcloud2" output="screen">
+        <remap from="/input_topic" to="/livox/lidar"/>
+        <remap from="/output_topic" to="/livox/points"/>
+    </node>
+
+    <node pkg="point_cloud_converter" type="point_cloud_converter_node" name="point_cloud_converter" output="screen">
+        <remap from="points_in" to="/radar_enhanced_pcl"/>
+        <remap from="points2_out" to="/radar_enhanced_pcl2"/>
+    </node>
+
+    <arg name = "file_0" default = "NTU4DRadLM/smoke_2022-05-21_0.bag"/> 
+    <arg name = "file_1" default = "NTU4DRadLM/smoke_2022-05-21_1.bag"/> 
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
+    </node>
+  </group>
+
+</launch>
