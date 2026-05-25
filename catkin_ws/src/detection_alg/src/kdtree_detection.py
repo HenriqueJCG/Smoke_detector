@@ -7,7 +7,7 @@ import sensor_msgs.point_cloud2 as pc2
 from livox_ros_driver.msg import CustomMsg
 from scipy.spatial import cKDTree
 import numpy as np
-
+import atexit
 
 class Point_Ratio:
    def __init__(self):
@@ -26,9 +26,11 @@ class Point_Ratio:
        self.lidar_xyz = None
        self.kdtree = None
 
+       #self.prev_prob = 0.0
+       self.weight = 0.7
 
-       self.prev_prob = 0.0
-
+       self.log = []
+       self.start_time = rospy.Time.now().to_sec()
 
        #=================
 
@@ -42,12 +44,12 @@ class Point_Ratio:
        if self.mode == 'livox':
            rospy.Subscriber("/radar_enhanced_pcl", PointCloud, self.radar_callback)
            rospy.Subscriber("/livox/lidar", CustomMsg, self.lidar_callback)
-       else:
+       elif self.mode == 'ouster128':
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
            rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
-           #rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
-           #rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
-
+       else:
+           rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
+           rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
 
        self.pub = rospy.Publisher("point_ratio", Float64, queue_size=10)
        self.pub_lidar = rospy.Publisher("lidar_points", Float64, queue_size=10)
@@ -97,6 +99,7 @@ class Point_Ratio:
            for p in msg.points:
                pts.append([p.x, p.y, p.z])
            #=================
+  
        else:
            self.radar_points = msg.width * msg.height
            pts = self.cloud_to_xyz(msg)
@@ -108,33 +111,26 @@ class Point_Ratio:
 
 
        matches = 0
-
-
-       for p in pts:
-           dist, _ = self.kdtree.query(p, k=1)
-
-
-           if dist < self.match_threshold:
-               matches += 1
+       dists, _ = self.kdtree.query(pts, k=1)
+       matches = np.sum(dists < self.match_threshold)
 
 
        match_ratio = matches / float(len(pts))
 
-
-       raw_prob = 1.0 - match_ratio
-
-
-       prob = self.alpha * self.prev_prob + (1.0 - self.alpha) * raw_prob
-       self.prev_prob = prob
-
-
-
+       prob = (0.5) * match_ratio + self._lidar_ratio * (0.5)
 
        #=================
        #self.probability()
        self.pub.publish(prob)
        self.pub_lidar.publish(self.lidar_points)  
        self.pub_radar.publish(self.radar_points)
+
+       t = rospy.Time.now().to_sec() - self.start_time
+
+       self.log.append([
+           t,
+           prob
+       ])
 
 
    def lidar_callback(self, msg):
@@ -146,9 +142,6 @@ class Point_Ratio:
            for p in msg.points:
                if p.reflectivity > 0:
                    self.lidar_points += 1
-
-
-
 
                pts.append([p.x, p.y, p.z]) #=================
 
@@ -173,10 +166,21 @@ class Point_Ratio:
 
 
        #=================
-  
+       self._lidar_ratio = self.lidar_points / self.max_points
        #self.probability()
+
+   def save_csv(self):
+       with open("visibility_log_kdtree.csv", "w") as f:
+           writer = csv.writer(f)
+           writer.writerow([
+              "time",
+              "prob"
+           ])
+
+           writer.writerows(self.log)
 
 
 if __name__ == "__main__":
    node = Point_Ratio()
    rospy.spin()
+   atexit.register(node.save_csv)

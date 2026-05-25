@@ -69,6 +69,17 @@
 
   <arg name="path" default="/home/Datasets/"/>
 
+  <group if="$(eval arg('dataset_type') == 'ouster128')">
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf3" args="0 0 0 0 0 0 base_link os_sensor" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf4" args="0 0 0 1.5708 3.14 1.5708 base_link oculii" />
+
+    <arg name = "file_0" default = "MSCRad4r/SMOKE_A0.bag"/> 
+    <arg name = "file_1" default = "MSCRad4r/SMOKE_B0.bag"/>
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock $(arg path)$(arg file_0) ">
+    </node>
+  </group>
+
   <group if="$(eval arg('dataset_type') == 'ouster')">
     <arg name = "file_0" default = "Forest_Eskilstuna/Eskilstuna_Forest_0.bag"/> 
     <arg name = "file_1" default = "Forest_Eskilstuna/Eskilstuna_Forest_1.bag"/> 
@@ -78,15 +89,6 @@
     <node pkg="rosbag" type="play" name="player" 
         args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
     </node>
-
-    <!--node pkg="tf2_ros" type="static_transform_publisher" name="base_tf3" args="0 0 0 0 0 0 base_link os_sensor" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf4" args="0 0 0 1.5708 3.14 1.5708 base_link oculii" />
-
-    <arg name = "file_0" default = "MSCRad4r/SMOKE_A0.bag"/> 
-    <arg name = "file_1" default = "MSCRad4r/SMOKE_B0.bag"/>
-    <node pkg="rosbag" type="play" name="player" 
-        args = "- -clock $(arg path)$(arg file_0) ">
-    </node-->
   </group>
 
   <group if="$(eval arg('dataset_type') == 'livox')">

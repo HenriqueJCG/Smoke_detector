@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import rospy
-import math, csv
+import rospy, math, csv
 from sensor_msgs.msg import PointCloud2,PointCloud
 from std_msgs.msg import Float64
 import sensor_msgs.point_cloud2 as pc2
 from livox_ros_driver.msg import CustomMsg
+import atexit
 
 class Point_Ratio:
     def __init__(self):
@@ -14,6 +14,10 @@ class Point_Ratio:
         self.lidar_points = 1
         self.max_points = 1
 
+        self.weight = 0.7
+
+        self.log = []
+        self.start_time = rospy.Time.now().to_sec()
 
         self._lidar_ratio = self.lidar_points / self.max_points
         self._sensor_ratio = self.lidar_points / self.radar_points
@@ -23,9 +27,10 @@ class Point_Ratio:
         if self.mode == 'livox':
             rospy.Subscriber("/radar_enhanced_pcl", PointCloud, self.radar_callback)
             rospy.Subscriber("/livox/lidar", CustomMsg, self.lidar_callback)
+        elif self.mode == 'ouster128':
+            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
+            rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
         else:
-            #rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
-            #rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
             rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
             rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
 
@@ -40,11 +45,21 @@ class Point_Ratio:
 
     def probability(self):
         self._lidar_ratio = self.lidar_points / self.max_points
-        self._sensor_ratio = (self.lidar_points)/ (self.radar_points )
+        self._sensor_ratio = self.lidar_points / self.radar_points
+
+        self._sensor_ratio = self.lidar_points / (self.radar_points + self.max_points) * self.weight + self._lidar_ratio * (1 - self.weight)
 
         self.pub.publish(self._sensor_ratio)
         self.pub_lidar.publish(self.lidar_points)   
         self.pub_radar.publish(self.radar_points)
+        #self.pub_radar.publish(self.max_points)
+
+        t = rospy.Time.now().to_sec() - self.start_time
+
+        self.log.append([
+            t,
+            self._sensor_ratio
+        ])
 
     def radar_callback(self, msg):
 
@@ -69,6 +84,18 @@ class Point_Ratio:
     
         self.probability()
 
+    def save_csv(self):
+        with open("visibility_log.csv", "w") as f:
+            writer = csv.writer(f)
+
+            writer.writerow([
+                "time",
+                "prob"
+            ])
+
+            writer.writerows(self.log)
+
 if __name__ == "__main__":
     node = Point_Ratio()
     rospy.spin()
+    atexit.register(node.save_csv)

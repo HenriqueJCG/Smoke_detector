@@ -13,5 +13,17 @@ catkin_ws/devel/
 catkin_ws/devel_isolated/
 .ros/
 .vscode-server/
+.cache/
+.config/
+.copilot/
+.dbus/
+.dotnet/
+.gnupg/
+.rviz/
+.ssh/
+.bashrc/
+.profile/
+.gitconfig/
+.bash_history/
 *.o
 *.log
