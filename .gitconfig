@@ -1,7 +1,0 @@
-[init]
-	defaultBranch = main
-[user]
-	name = HenriqueJCG
-	email = henriquejcgomes5@gmail.com
-[credential]
-	helper = "!f() { /root/.vscode-server/bin/8b640eef5a6c6089c029249d48efa5c99adf7d51/node /tmp/vscode-remote-containers-b13e63d1-2fb7-4aa8-8618-ffbf4a343bcc.js git-credential-helper $*; }; f"
