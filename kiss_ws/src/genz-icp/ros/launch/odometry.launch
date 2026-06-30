@@ -4,7 +4,7 @@
   <arg name="bagfile" default=""/>
   <arg name="topic" default=""/>
   <arg name="odom_frame" default="odom"/>
-  <arg name="base_frame" default=""/>
+  <arg name="base_frame" default="base_link"/>
   <arg name="publish_odom_tf" default="true"/>
   <arg name="visualize" default="true"/>
 
@@ -24,7 +24,7 @@
   <arg name="convergence_criterion" default="0.0001"/>
 
   <!-- Odometry node -->
-  <node pkg="genz_icp" type="odometry_node" name="odometry_node" output="screen">
+  <node pkg="genz_icp" type="odometry_node" name="odometry_node1" output="screen">
     <!-- ROS params -->
     <remap from="pointcloud_topic" to="$(arg topic)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
@@ -57,12 +57,12 @@
   </group>
 
   <!-- Visualizer -->
-  <group if="$(arg visualize)">
+  <!--group if="$(arg visualize)">
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
     <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
-    <node pkg="detection_alg" type="detection.py" name="detection_node" output="screen">
+    <node pkg="detection_alg" type="kdtree_detection.py" name="detection_node" output="screen">
 		  <param name="mode" value="$(arg dataset_type)"/>
 	  </node>
   </group>
@@ -76,7 +76,7 @@
     <arg name = "file_0" default = "MSCRad4r/SMOKE_A0.bag"/> 
     <arg name = "file_1" default = "MSCRad4r/SMOKE_B0.bag"/>
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock $(arg path)$(arg file_0) ">
+        args = "- -clock $(arg path)$(arg file_0) ">
     </node>
   </group>
 
@@ -87,7 +87,7 @@
     <arg name = "file_3" default = "Forest_Eskilstuna/Eskilstuna_Forest_3.bag"/> 
     <arg name = "file_4" default = "Forest_Eskilstuna/Eskilstuna_Forest_4.bag"/> 
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
+        args = "- -clock $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
     </node>
   </group>
 
@@ -105,8 +105,8 @@
     <arg name = "file_0" default = "NTU4DRadLM/smoke_2022-05-21_0.bag"/> 
     <arg name = "file_1" default = "NTU4DRadLM/smoke_2022-05-21_1.bag"/> 
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
+        args = "- -clock $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
     </node>
-  </group>
+  </group-->
 
 </launch>

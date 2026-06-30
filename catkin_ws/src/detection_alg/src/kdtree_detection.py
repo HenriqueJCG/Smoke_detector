@@ -61,11 +61,11 @@ class Point_Ratio:
 
    #=================
    def cloud_to_xyz(self, msg):
-       pts = []
-       for p in pc2.read_points(msg, field_names=("x", "y", "z"), skip_nans=True):
-           if not (p[0] == 0 and p[1] == 0 and p[2] == 0):
-               pts.append([p[0], p[1], p[2]])
-       return np.array(pts)
+       pts = np.array(list(pc2.read_points(msg, field_names=("x", "y", "z"), skip_nans=True)))
+       if len(pts) == 0:
+           return np.array([])
+       pts = pts[~np.all(pts == 0, axis=1)]  # remove zero points
+       return pts
    #=================
 
 

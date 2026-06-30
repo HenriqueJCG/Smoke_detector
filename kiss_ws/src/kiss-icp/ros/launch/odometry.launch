@@ -4,7 +4,7 @@
   <arg name="bagfile" default=""/>
   <arg name="visualize" default="true"/>
   <arg name="odom_frame" default="odom"/>
-  <arg name="base_frame" default=""/>
+  <arg name="base_frame" default="base_link"/>
   <arg name="topic" default=""/>
   <arg name="publish_odom_tf" default="false"/>
 
@@ -45,7 +45,7 @@
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
     <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
-    <node pkg="detection_alg" type="kdtree_detection.py" name="detection_node" output="screen">
+    <node pkg="detection_alg" type="detection.py" name="detection_node" output="screen">
 		  <param name="mode" value="$(arg dataset_type)"/>
 	  </node>
   </group>

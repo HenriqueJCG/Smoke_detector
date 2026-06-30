@@ -21,9 +21,9 @@ catkin_ws/devel_isolated/
 .gnupg/
 .rviz/
 .ssh/
-.bashrc/
-.profile/
-.gitconfig/
-.bash_history/
+.bashrc
+.profile
+.gitconfig
+.bash_history
 *.o
 *.log
