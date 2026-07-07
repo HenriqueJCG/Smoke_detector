@@ -3,14 +3,32 @@
   <!-- KISS-ICP odometry node 1 - oculii radar -->
   <include file="$(find kiss_icp)/launch/odometry.launch">
     <arg name="topic" value="/radar_enhanced_pcl2"/>
-    <arg name="dataset_type" value="livox"/>
   </include>
 
   <!-- KISS-ICP odometry node 2 - livox lidar -->
   <include file="$(find genz_icp)/launch/odometry.launch">
-    <arg name="topic" value="/livox/points"/>
+    <arg name="topic" value="/livox/points"/> 
     
   </include>
+
+
+  <arg name="path" default="/home/Datasets/"/>
+  <arg name="dataset_type" value="livox"/>
+  <arg name="visualize" default="true"/>
+
+  <!-- Visualizer -->
+  <group if="$(arg visualize)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
+    <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
+    <node pkg="detection_alg" type="kdtree_detection.py" name="detection_node" output="screen">
+		  <param name="mode" value="$(arg dataset_type)"/>
+	  </node>
+    <node pkg="detection_alg" type="covariances.py" name="covariance_node" output="screen"/>
+  </group>
+
+  
 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
     <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
@@ -21,4 +39,44 @@
     -->
 
   </node>
+
+  <group if="$(eval arg('dataset_type') == 'ouster128')">
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf3" args="0 0 0 0 0 0 base_link os_sensor" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf4" args="0 0 0 1.5708 3.14 1.5708 base_link oculii" />
+
+    <arg name = "file_0" default = "MSCRad4r/SMOKE_A0.bag"/> 
+    <arg name = "file_1" default = "MSCRad4r/SMOKE_B0.bag"/>
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock $(arg path)$(arg file_0) ">
+    </node>
+  </group>
+
+  <group if="$(eval arg('dataset_type') == 'ouster')">
+    <arg name = "file_0" default = "Forest_Eskilstuna/Eskilstuna_Forest_0.bag"/> 
+    <arg name = "file_1" default = "Forest_Eskilstuna/Eskilstuna_Forest_1.bag"/> 
+    <arg name = "file_2" default = "Forest_Eskilstuna/Eskilstuna_Forest_2.bag"/> 
+    <arg name = "file_3" default = "Forest_Eskilstuna/Eskilstuna_Forest_3.bag"/> 
+    <arg name = "file_4" default = "Forest_Eskilstuna/Eskilstuna_Forest_4.bag"/> 
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock --rate 0.5 $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
+    </node>
+  </group>
+
+  <group if="$(eval arg('dataset_type') == 'livox')">
+    <node pkg="livox_to_pointcloud2" type="livox_to_pointcloud2_node" name="livox_to_pointcloud2" output="screen">
+        <remap from="/input_topic" to="/livox/lidar"/>
+        <remap from="/output_topic" to="/livox/points"/>
+    </node>
+
+    <node pkg="point_cloud_converter" type="point_cloud_converter_node" name="point_cloud_converter" output="screen">
+        <remap from="points_in" to="/radar_enhanced_pcl"/>
+        <remap from="points2_out" to="/radar_enhanced_pcl2"/>
+    </node>
+
+    <arg name = "file_0" default = "NTU4DRadLM/smoke_2022-05-21_0.bag"/> 
+    <arg name = "file_1" default = "NTU4DRadLM/smoke_2022-05-21_1.bag"/> 
+    <node pkg="rosbag" type="play" name="player" 
+        args = "--clock --rate 0.7 $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
+    </node>
+  </group>
 </launch>
