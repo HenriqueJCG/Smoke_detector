@@ -1,0 +1,19 @@
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:47:6:[m[K [01;31m[Kerror: [m[K‘[01m[KOdometryServer[m[K’ has not been declared
+   47 | void [01;31m[KOdometryServer[m[K::InitialPoseCallback(
+      |      [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:[m[K In function ‘[01m[Kvoid InitialPoseCallback(const PoseStampedConstPtr&)[m[K’:
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:50:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kgot_initial_pose_[m[K’ was not declared in this scope
+   50 |     if ([01;31m[Kgot_initial_pose_[m[K)
+      |         [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:66:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kodometry_[m[K’ was not declared in this scope
+   66 |     [01;31m[Kodometry_[m[K.SetInitialPose(pose);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:68:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgot_initial_pose_[m[K’ was not declared in this scope
+   68 |     [01;31m[Kgot_initial_pose_[m[K = true;
+      |     [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:70:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kinitial_pose_sub_[m[K’ was not declared in this scope
+   70 |     [01;31m[Kinitial_pose_sub_[m[K.shutdown();
+      |     [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/odometry_node.dir/build.make:63: CMakeFiles/odometry_node.dir/ros1/OdometryServer.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:298: CMakeFiles/odometry_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

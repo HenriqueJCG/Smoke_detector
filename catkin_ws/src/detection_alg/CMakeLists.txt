@@ -200,6 +200,8 @@ catkin_install_python(
     src/detection.py
     src/kdtree_detection.py
     src/covariances.py
+    src/restart_nodes.py
+    src/egovelocity.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

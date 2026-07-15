@@ -76,9 +76,28 @@ OdometryServer::OdometryServer(const ros::NodeHandle &nh, const ros::NodeHandle 
     // Construct the main GenZ-ICP odometry node
     odometry_ = genz_icp::pipeline::GenZICP(config_);
 
+    double init_x = 0.0, init_y = 0.0, init_z = 0.0;
+    double init_qx = 0.0, init_qy = 0.0, init_qz = 0.0, init_qw = 1.0;
+
+    ros::param::get("/genz_icp/initial_pose_x", init_x);
+    ros::param::get("/genz_icp/initial_pose_y", init_y);
+    ros::param::get("/genz_icp/initial_pose_z", init_z);
+
+    ros::param::get("/genz_icp/initial_pose_qx", init_qx);
+    ros::param::get("/genz_icp/initial_pose_qy", init_qy);
+    ros::param::get("/genz_icp/initial_pose_qz", init_qz);
+    ros::param::get("/genz_icp/initial_pose_qw", init_qw);
+
+    Eigen::Quaterniond q(init_qw, init_qx, init_qy, init_qz);
+    q.normalize();
+
+    Sophus::SE3d initial_pose(q, Eigen::Vector3d(init_x, init_y, init_z));
+
+    odometry_.SetInitialPose(initial_pose);
+
     // Initialize subscribers
     pointcloud_sub_ = nh_.subscribe<sensor_msgs::PointCloud2>("pointcloud_topic", queue_size_,
-                                                              &OdometryServer::RegisterFrame, this);
+                                                              &OdometryServer::RegisterFrame, this);    
 
     // Initialize publishers
     odom_publisher_ = pnh_.advertise<nav_msgs::Odometry>("/genz/odometry", queue_size_);
@@ -173,12 +192,12 @@ void OdometryServer::PublishOdometry(const Sophus::SE3d &pose,
     odom_msg.header.stamp = stamp;
     odom_msg.header.frame_id = odom_frame_;
     odom_msg.pose.pose = tf2::sophusToPose(pose);
-    odom_msg.pose.covariance[0] = 0.1;
-    odom_msg.pose.covariance[7] = 0.1;
-    odom_msg.pose.covariance[14] = 0.1;
-    odom_msg.pose.covariance[21] = 0.1;
-    odom_msg.pose.covariance[28] = 0.1;
-    odom_msg.pose.covariance[35] = 0.1;
+    odom_msg.pose.covariance[0] = 0.05;
+    odom_msg.pose.covariance[7] = 0.05;
+    odom_msg.pose.covariance[14] = 0.05;
+    odom_msg.pose.covariance[21] = 0.05;
+    odom_msg.pose.covariance[28] = 0.05;
+    odom_msg.pose.covariance[35] = 0.05;
     odom_publisher_.publish(odom_msg);
 }
 

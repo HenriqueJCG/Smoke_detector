@@ -1,44 +1,77 @@
 <launch>
 
+  <arg name="path" default="/home/Datasets/"/>
+  <arg name="visualize" default="true"/>
+
+  <arg name="dataset_type" default="livox"/>
+  <arg name="fusion" default="true"/>
+  <arg name="radar" default="true"/>
+  <arg name="lidar" default="false"/>
+  <arg name="egovelocity" default="false"/>
+  <arg name="point_algorithm" default="fov"/>
+
+
   <!-- KISS-ICP odometry node 1 - oculii radar -->
-  <include file="$(find kiss_icp)/launch/odometry.launch">
-    <arg name="topic" value="/radar_enhanced_pcl2"/>
+  <include if="$(arg radar)" file="$(find kiss_icp)/launch/odometry.launch">
+    <arg if="$(eval arg('dataset_type') == 'livox')" name="topic" value="/radar_enhanced_pcl2"/>
+    <arg if="$(eval arg('dataset_type') == 'ouster')" name="topic" value="/hugin_raf_1/radar_data"/>
   </include>
 
   <!-- KISS-ICP odometry node 2 - livox lidar -->
-  <include file="$(find genz_icp)/launch/odometry.launch">
-    <arg name="topic" value="/livox/points"/> 
-    
+  <include if="$(arg lidar)" file="$(find genz_icp)/launch/odometry.launch">
+    <arg if="$(eval arg('dataset_type') == 'livox')" name="topic" value="/livox/points"/> 
+    <arg if="$(eval arg('dataset_type') == 'ouster')" name="topic" value="/ouster/points"/>
+    <arg if="$(eval arg('dataset_type') == 'ouster128')" name="topic" value="/ouster/points"/>
   </include>
 
+  <!-- Static transforms and smoke algorithm -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
+  <node if="$(eval arg('point_algorithm') == 'fov')" pkg="detection_alg" type="detection.py" name="detection_node" output="screen">
+    <param name="mode" value="$(arg dataset_type)"/>
+  </node>
 
-  <arg name="path" default="/home/Datasets/"/>
-  <arg name="dataset_type" value="livox"/>
-  <arg name="visualize" default="true"/>
+  <node if="$(eval arg('point_algorithm') == 'kdtree')" pkg="kdtree_detection_alg" type="detection.py" name="detection_node" output="screen">
+    <param name="mode" value="$(arg dataset_type)"/>
+  </node>
 
   <!-- Visualizer -->
   <group if="$(arg visualize)">
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find kiss_icp)/rviz/kiss_icp_ros1.rviz"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf" args="0 0 0 0 0 0 base_link odom" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf2" args="0 0 0 0 0 0 base_link livox_frame" />
     <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
-    <node pkg="detection_alg" type="kdtree_detection.py" name="detection_node" output="screen">
-		  <param name="mode" value="$(arg dataset_type)"/>
-	  </node>
-    <node pkg="detection_alg" type="covariances.py" name="covariance_node" output="screen"/>
   </group>
 
   
+  <group if="$(arg fusion)">
+    <node pkg="detection_alg" type="covariances.py" name="covariance_node" output="screen">
+      <param name="invert" value="True"/>
+    </node>
+    <node pkg="detection_alg" type="restart_nodes.py" name="restart_node" output="screen"> 
+      <!-- Initializes genz by default -->
+      <param name="mode" value="$(arg dataset_type)"/>
+    </node>
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+      <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
 
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
-    <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
+      <remap from="odometry/filtered" to="/odometry/filtered"/>
+      <!--  Placeholder for input topic remapping 
+      <remap from="accel/filtered" to=""/>
+      -->
 
-    <remap from="odometry/filtered" to="/odometry/filtered"/>
-    <!--  Placeholder for input topic remapping 
-    <remap from="accel/filtered" to=""/>
-    -->
+    </node>
+  </group>
+  
+  <!-- Ego-velocity node -->
+  <group if="$(arg egovelocity)">
+    <node pkg="detection_alg" type="egovelocity.py" name="egovelocity_node" output="screen">
+      <param name="publish_filtered_cloud" value="False"/>
+      <param name="integrate_position" value="True"/>
+      <param if="$(eval arg('dataset_type') == 'ouster')" name="doppler_field" value="doppler"/>
+      <param if="$(eval arg('dataset_type') == 'livox')" name="doppler_field" value="Doppler"/>
+      <param name="mode" value="$(arg dataset_type)"/>
+    </node>  
+  </group>
 
-  </node>
 
   <group if="$(eval arg('dataset_type') == 'ouster128')">
     <node pkg="tf2_ros" type="static_transform_publisher" name="base_tf3" args="0 0 0 0 0 0 base_link os_sensor" />

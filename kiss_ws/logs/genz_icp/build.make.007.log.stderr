@@ -1,0 +1,11 @@
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:103:6:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kvoid genz_icp_ros::OdometryServer::InitialPoseCallback(const PoseStampedConstPtr&)[m[K’
+  103 | void [01;31m[KOdometryServer[m[K::InitialPoseCallback(
+      |      [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:103:6:[m[K [01;36m[Knote: [m[Kno functions named ‘[01m[Kvoid genz_icp_ros::OdometryServer::InitialPoseCallback(const PoseStampedConstPtr&)[m[K’
+In file included from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:40:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass genz_icp_ros::OdometryServer[m[K’ defined here
+   40 | class [01;36m[KOdometryServer[m[K {
+      |       [01;36m[K^~~~~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/odometry_node.dir/build.make:63: CMakeFiles/odometry_node.dir/ros1/OdometryServer.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:298: CMakeFiles/odometry_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

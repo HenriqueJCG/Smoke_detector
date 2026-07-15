@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""
+Point ratio node to calculate the ratio of lidar points to radar points
+
+Compares the point ratio in the overlapping field of view of the sensors,
+and publishes the smoke probability considering the ratio between radar and lidar, 
+as well as the lidar point ratio to the maximum lidar points in a frame.
+"""
+
 import rospy, math, csv
 import numpy as np
 from sensor_msgs.msg import PointCloud2, PointCloud
@@ -6,11 +14,6 @@ from std_msgs.msg import Float64
 import sensor_msgs.point_cloud2 as pc2
 from livox_ros_driver.msg import CustomMsg
 
-# Sensor overlap params (Hugin D1 is the bottleneck)
-MAX_RANGE = 260 #78 Hugin
-H_FOV     = 80.0
-V_FOV_MIN = -15.0
-V_FOV_MAX =  15.0
 
 class Point_Ratio:
     def __init__(self):
@@ -34,12 +37,24 @@ class Point_Ratio:
         if self.mode == 'livox':
             rospy.Subscriber("/radar_enhanced_pcl", PointCloud,  self.radar_callback)
             rospy.Subscriber("/livox/lidar",         CustomMsg,   self.lidar_callback)
+            self.MAX_RANGE = 260
+            self.H_FOV     = 80.0
+            self.V_FOV_MIN = -15.0
+            self.V_FOV_MAX =  15.0
         elif self.mode == 'ouster128':
             rospy.Subscriber("/ouster/points",               PointCloud2, self.lidar_callback)
             rospy.Subscriber("/oculii_radar/point_cloud",    PointCloud2, self.radar_callback)
+            self.MAX_RANGE = 200 #78 Hugin
+            self.H_FOV     = 113.0
+            self.V_FOV_MIN = -22.0
+            self.V_FOV_MAX =  22.0
         else:
             rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
             rospy.Subscriber("/ouster/points",          PointCloud2, self.lidar_callback)
+            self.MAX_RANGE = 78 #78 Hugin
+            self.H_FOV     = 90.0
+            self.V_FOV_MIN = -15.0
+            self.V_FOV_MAX =  15.0
 
         self.pub       = rospy.Publisher("point_ratio",   Float64, queue_size=10)
         self.pub_lidar = rospy.Publisher("lidar_points",  Float64, queue_size=10)
@@ -52,14 +67,14 @@ class Point_Ratio:
             return np.array([])
 
         ranges    = np.linalg.norm(pts, axis=1)
-        mask      = (ranges > 0.5) & (ranges < MAX_RANGE)
+        mask      = (ranges > 0.5) & (ranges < self.MAX_RANGE)
 
         xy_ranges = np.linalg.norm(pts[:, :2], axis=1)
         elevation = np.degrees(np.arctan2(pts[:, 2], xy_ranges))
-        mask     &= (elevation >= V_FOV_MIN) & (elevation <= V_FOV_MAX)
+        mask     &= (elevation >= self.V_FOV_MIN) & (elevation <= self.V_FOV_MAX)
 
         azimuth   = np.degrees(np.arctan2(pts[:, 1], pts[:, 0]))
-        mask     &= (azimuth >= -H_FOV / 2) & (azimuth <= H_FOV / 2)
+        mask     &= (azimuth >= -self.H_FOV / 2) & (azimuth <= self.H_FOV / 2)
 
         return pts[mask]
 

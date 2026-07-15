@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""
+Point ratio node to calculate the ratio of lidar points to radar points
+
+Compares the point ratio between the sensors using a kdtree,
+and publishes the smoke probability considering the ratio between radar and lidar, 
+as well as the lidar point ratio to the maximum lidar points in a frame.
+"""
+
 import rospy
 import math, csv
 from sensor_msgs.msg import PointCloud2,PointCloud

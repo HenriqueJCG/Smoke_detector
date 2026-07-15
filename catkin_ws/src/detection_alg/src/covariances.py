@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import numpy as np
 import rospy
 from nav_msgs.msg import Odometry
@@ -7,9 +6,6 @@ from std_msgs.msg import Float32
 
 
 def _apply_baseline(cov_flat, baseline_diag):
-    """If the incoming 6x6 covariance is ~zero, seed it with a diagonal
-    baseline so there is something meaningful to scale. Off-diagonal terms
-    are left untouched."""
     cov = np.array(cov_flat, dtype=float).reshape(6, 6)
     if np.allclose(np.diag(cov), 0.0, atol=1e-12):
         cov = np.diag(baseline_diag).astype(float)
@@ -22,30 +18,23 @@ def _scale(cov6x6, factor):
 
 class SmokeGatedCovarianceNode(object):
     def __init__(self):
-        # ---- topics ----
+        
         self.lidar_odom_topic = rospy.get_param('lidar_odom_topic', '/genz/odometry')
         self.radar_odom_topic = rospy.get_param('radar_odom_topic', '/kiss/odometry')
         self.smoke_topic = rospy.get_param('smoke_topic', '/point_ratio')
         self.lidar_odom_out_topic = rospy.get_param('lidar_odom_out_topic', '/odom/lidar')
         self.radar_odom_out_topic = rospy.get_param('radar_odom_out_topic', '/odom/radar')
 
-        # ---- trust model ----
         self.lidar_trust_min = float(rospy.get_param('~lidar_trust_min', 0.05))
         self.radar_trust_min = float(rospy.get_param('~radar_trust_min', 0.05))
         self.gain = float(rospy.get_param('~smoke_gain', 1.0))
-        self.invert = bool(rospy.get_param('~invert', False))
+        self.invert = bool(rospy.get_param('~invert', True))
         self.smoke_timeout = float(rospy.get_param('~smoke_timeout_sec', 1.0))
 
-        # ---- baseline covariance diagonals (used only if raw covariance is all-zero) ----
-        # order: x, y, z, roll, pitch, yaw
-        self.lidar_base_pose = list(rospy.get_param(
-            '~lidar_baseline_pose_diag', [0.01, 0.01, 0.05, 0.02, 0.02, 0.02]))
-        self.lidar_base_twist = list(rospy.get_param(
-            '~lidar_baseline_twist_diag', [0.02, 0.02, 0.05, 0.02, 0.02, 0.02]))
-        self.radar_base_pose = list(rospy.get_param(
-            '~radar_baseline_pose_diag', [0.05, 0.05, 0.20, 0.10, 0.10, 0.05]))
-        self.radar_base_twist = list(rospy.get_param(
-            '~radar_baseline_twist_diag', [0.05, 0.05, 0.20, 0.10, 0.10, 0.05]))
+        self.lidar_base_pose = list(rospy.get_param('~lidar_baseline_pose_diag', [0.01, 0.01, 0.05, 0.02, 0.02, 0.02]))
+        self.lidar_base_twist = list(rospy.get_param('~lidar_baseline_twist_diag', [0.02, 0.02, 0.05, 0.02, 0.02, 0.02]))
+        self.radar_base_pose = list(rospy.get_param('~radar_baseline_pose_diag', [0.05, 0.05, 0.20, 0.10, 0.10, 0.05]))
+        self.radar_base_twist = list(rospy.get_param('~radar_baseline_twist_diag', [0.05, 0.05, 0.20, 0.10, 0.10, 0.05]))
 
         self.smoke_prob = 0.0
         self.last_smoke_stamp = None
@@ -56,12 +45,6 @@ class SmokeGatedCovarianceNode(object):
 
         self.pub_lidar = rospy.Publisher(self.lidar_odom_out_topic, Odometry, queue_size=10)
         self.pub_radar = rospy.Publisher(self.radar_odom_out_topic, Odometry, queue_size=10)
-
-        rospy.loginfo(
-            'smoke_gated_covariance_node up: lidar %s -> %s, radar %s -> %s, '
-            'smoke <- %s, invert=%s',
-            self.lidar_odom_topic, self.lidar_odom_out_topic, self.radar_odom_topic, self.radar_odom_out_topic,
-            self.smoke_topic, self.invert)
 
 
     def _smoke_cb(self, msg):
@@ -77,13 +60,10 @@ class SmokeGatedCovarianceNode(object):
 
     def _trusts(self):
         if self._stale():
-            return 1.0, 1.0  # no signal -> don't touch anything
+            return 1.0, 1.0 
 
         p = self.smoke_prob ** self.gain
 
-        # literal request: high smoke -> trust lidar more, radar less.
-        # set ~invert:=true to swap (usually the physically sensible choice
-        # for optical lidar + smoke/dust).
         lidar_trust = self.lidar_trust_min + (1.0 - self.lidar_trust_min) * p
         radar_trust = self.radar_trust_min + (1.0 - self.radar_trust_min) * (1.0 - p)
 

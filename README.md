@@ -35,7 +35,25 @@ Repository for the code related to the Radar based EKF LiDAR-Radar fusion develo
 
 ### [EKF](https://github.com/cra-ros-pkg/robot_localization/tree/noetic-devel)
 
-```roslaunch robot_localization ekf_template.launch```
+Basic launch: ```roslaunch robot_localization ekf_template.launch```
+
+Full launch example: ```roslaunch robot_localization ekf_template.launch dataset_type:=ouster egovelocity:=true radar:=false fusion:=true point_algorithm:=fov```
+
+**Customizable parameters:**
+
+Select dataset: dataset_type (livox/ouster/ouster128)
+
+Use EKF fusion: fusion (true/false)
+
+Use RADAR ICP odometry: radar (true/false)
+
+Use LiDAR ICP odometry (Fusion already starts this): lidar (false/true)
+
+Use RADAR ego velocity estimation: egovelocity (false/true)
+
+Select detection algorithm: point_algorithm (fov/kdtree)
+
+
 
 ---
 

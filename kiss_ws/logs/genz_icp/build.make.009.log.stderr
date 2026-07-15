@@ -1,0 +1,494 @@
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:[m[K In constructor ‘[01m[Kgenz_icp_ros::OdometryServer::OdometryServer(const ros::NodeHandle&, const ros::NodeHandle&)[m[K’:
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:82:60:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [25], double&, double)[m[K’
+   82 |     ros::param::get("/genz_icp/initial_pose_x", init_x, 0.0[01;31m[K)[m[K;
+      |                                                            [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:83:60:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [25], double&, double)[m[K’
+   83 |     ros::param::get("/genz_icp/initial_pose_y", init_y, 0.0[01;31m[K)[m[K;
+      |                                                            [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:84:60:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [25], double&, double)[m[K’
+   84 |     ros::param::get("/genz_icp/initial_pose_z", init_z, 0.0[01;31m[K)[m[K;
+      |                                                            [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:86:62:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [26], double&, double)[m[K’
+   86 |     ros::param::get("/genz_icp/initial_pose_qx", init_qx, 0.0[01;31m[K)[m[K;
+      |                                                              [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:87:62:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [26], double&, double)[m[K’
+   87 |     ros::param::get("/genz_icp/initial_pose_qy", init_qy, 0.0[01;31m[K)[m[K;
+      |                                                              [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:88:62:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [26], double&, double)[m[K’
+   88 |     ros::param::get("/genz_icp/initial_pose_qz", init_qz, 0.0[01;31m[K)[m[K;
+      |                                                              [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:89:62:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kget(const char [26], double&, double)[m[K’
+   89 |     ros::param::get("/genz_icp/initial_pose_qw", init_qw, 1.0[01;31m[K)[m[K;
+      |                                                              [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/noetic/include/ros/ros.h:54[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.hpp:30[m[K,
+                 from [01m[K/root/kiss_ws/src/genz-icp/ros/ros1/OdometryServer.cpp:29[m[K:
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::string&)[m[K’
+  172 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::string& s);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:172:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, double&)[m[K’
+  181 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, double& d);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:181:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, float&)[m[K’
+  190 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, float& f);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:190:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, int&)[m[K’
+  199 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, int& i);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:199:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, bool&)[m[K’
+  208 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, bool& b);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:208:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, XmlRpc::XmlRpcValue&)[m[K’
+  217 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, XmlRpc::XmlRpcValue& v);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:217:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<std::__cxx11::basic_string<char> >&)[m[K’
+  312 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<std::string>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:312:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<double>&)[m[K’
+  321 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<double>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:321:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<float>&)[m[K’
+  330 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<float>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:330:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<int>&)[m[K’
+  339 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<int>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:339:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::vector<bool>&)[m[K’
+  348 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::vector<bool>& vec);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:348:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)[m[K’
+  429 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, std::string>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:429:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, double>&)[m[K’
+  438 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, double>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:438:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, float>&)[m[K’
+  447 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, float>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:447:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, int>&)[m[K’
+  456 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, int>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:456:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool ros::param::get(const string&, std::map<std::__cxx11::basic_string<char>, bool>&)[m[K’
+  465 | ROSCPP_DECL bool [01;36m[Kget[m[K(const std::string& key, std::map<std::string, bool>& map);
+      |                  [01;36m[K^~~[m[K
+[01m[K/opt/ros/noetic/include/ros/param.h:465:18:[m[K [01;36m[Knote: [m[K  candidate expects 2 arguments, 3 provided
+make[2]: *** [CMakeFiles/odometry_node.dir/build.make:63: CMakeFiles/odometry_node.dir/ros1/OdometryServer.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:298: CMakeFiles/odometry_node.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2
