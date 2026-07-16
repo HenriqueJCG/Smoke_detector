@@ -9,6 +9,7 @@
   <arg name="lidar" default="false"/>
   <arg name="egovelocity" default="false"/>
   <arg name="point_algorithm" default="fov"/>
+  <arg name="bag_rate" default="0.5"/>
 
 
   <!-- KISS-ICP odometry node 1 - oculii radar -->
@@ -80,7 +81,7 @@
     <arg name = "file_0" default = "MSCRad4r/SMOKE_A0.bag"/> 
     <arg name = "file_1" default = "MSCRad4r/SMOKE_B0.bag"/>
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock $(arg path)$(arg file_0) ">
+        args = "--clock --rate $(arg bag_rate) $(arg path)$(arg file_0) ">
     </node>
   </group>
 
@@ -91,7 +92,7 @@
     <arg name = "file_3" default = "Forest_Eskilstuna/Eskilstuna_Forest_3.bag"/> 
     <arg name = "file_4" default = "Forest_Eskilstuna/Eskilstuna_Forest_4.bag"/> 
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock --rate 0.5 $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
+        args = "--clock --rate $(arg bag_rate) $(arg path)$(arg file_0) $(arg path)$(arg file_1) $(arg path)$(arg file_2) $(arg path)$(arg file_3) $(arg path)$(arg file_4)">
     </node>
   </group>
 
@@ -109,7 +110,7 @@
     <arg name = "file_0" default = "NTU4DRadLM/smoke_2022-05-21_0.bag"/> 
     <arg name = "file_1" default = "NTU4DRadLM/smoke_2022-05-21_1.bag"/> 
     <node pkg="rosbag" type="play" name="player" 
-        args = "--clock --rate 0.7 $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
+        args = "--clock --rate $(arg bag_rate) $(arg path)$(arg file_0) $(arg path)$(arg file_1)">
     </node>
   </group>
 </launch>
