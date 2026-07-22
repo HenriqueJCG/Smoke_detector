@@ -25,7 +25,8 @@ class Point_Ratio:
        self.radar_points = 1
        self.lidar_points = 1
        self.max_points = 1
-
+       self.prob = 1
+       self.running=True
 
        #=================
        self.match_threshold = rospy.get_param("~match_threshold", 1.0)  # meters
@@ -50,14 +51,17 @@ class Point_Ratio:
        self.mode = rospy.get_param("~mode")
       
        if self.mode == 'livox':
-           rospy.Subscriber("/radar_enhanced_pcl", PointCloud, self.radar_callback)
-           rospy.Subscriber("/livox/lidar", CustomMsg, self.lidar_callback)
+           rospy.Subscriber("/radar_enhanced_pcl2", PointCloud2,  self.radar_callback)
+           rospy.Subscriber("/livox/points",        PointCloud2,   self.lidar_callback)
+           self.pub_lidar_pcl = rospy.Publisher("/filtered_livox",PointCloud2,queue_size=10)
        elif self.mode == 'ouster128':
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
            rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
+           self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
        else:
            rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
+           self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
 
        self.pub = rospy.Publisher("point_ratio", Float64, queue_size=10)
        self.pub_lidar = rospy.Publisher("lidar_points", Float64, queue_size=10)
@@ -99,7 +103,7 @@ class Point_Ratio:
        #=================
 
 
-       if self.mode == 'livox':
+       if self.mode == 're':
            self.radar_points = len(msg.points)
 
 
@@ -125,11 +129,11 @@ class Point_Ratio:
 
        match_ratio = matches / float(len(pts))
 
-       prob = (0.5) * match_ratio + self._lidar_ratio * (0.5)
+       self.prob = (0.5) * match_ratio + self._lidar_ratio * (0.5)
 
        #=================
        #self.probability()
-       self.pub.publish(prob)
+       self.pub.publish(self.prob)
        self.pub_lidar.publish(self.lidar_points)  
        self.pub_radar.publish(self.radar_points)
 
@@ -137,13 +141,13 @@ class Point_Ratio:
 
        self.log.append([
            t,
-           prob
+           self.prob
        ])
 
 
    def lidar_callback(self, msg):
        pts = []
-       if self.mode == 'livox':
+       if self.mode == 're':
            self.lidar_points = 1
 
 
@@ -175,7 +179,14 @@ class Point_Ratio:
 
        #=================
        self._lidar_ratio = self.lidar_points / self.max_points
-       #self.probability()
+       
+       if self.prob<0.3:
+           self.running=False
+       elif self.prob>0.3 and not self.running:
+           self.running=True
+
+       if self.running:
+             self.pub_lidar_pcl.publish(msg)
 
    def save_csv(self):
        with open("visibility_log_kdtree.csv", "w") as f:

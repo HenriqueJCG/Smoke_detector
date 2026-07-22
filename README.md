@@ -53,7 +53,7 @@ Use RADAR ego velocity estimation: egovelocity (false/true)
 
 Select detection algorithm: point_algorithm (fov/kdtree)
 
-
+Select bag replay speed: bag_rate (0.1>)
 
 ---
 

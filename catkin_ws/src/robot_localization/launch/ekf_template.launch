@@ -10,7 +10,8 @@
   <arg name="egovelocity" default="false"/>
   <arg name="point_algorithm" default="fov"/>
   <arg name="bag_rate" default="0.5"/>
-
+  <arg name="stop_lidar_threshold" default="0.2"/>
+  <arg name="start_lidar_threshold" default="0.7"/>
 
   <!-- KISS-ICP odometry node 1 - oculii radar -->
   <include if="$(arg radar)" file="$(find kiss_icp)/launch/odometry.launch">
@@ -32,7 +33,7 @@
     <param name="mode" value="$(arg dataset_type)"/>
   </node>
 
-  <node if="$(eval arg('point_algorithm') == 'kdtree')" pkg="kdtree_detection_alg" type="detection.py" name="detection_node" output="screen">
+  <node if="$(eval arg('point_algorithm') == 'kdtree')" pkg="detection_alg" type="kdtree_detection.py" name="detection_node" output="screen">
     <param name="mode" value="$(arg dataset_type)"/>
   </node>
 
@@ -50,6 +51,8 @@
     <node pkg="detection_alg" type="restart_nodes.py" name="restart_node" output="screen"> 
       <!-- Initializes genz by default -->
       <param name="mode" value="$(arg dataset_type)"/>
+      <param name="stop_lidar_threshold" value="$(arg stop_lidar_threshold)"/>
+      <param name="start_lidar_threshold" value="$(arg start_lidar_threshold)"/>
     </node>
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
       <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />

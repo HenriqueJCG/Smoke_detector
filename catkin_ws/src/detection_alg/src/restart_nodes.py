@@ -3,10 +3,11 @@ import signal
 import subprocess
 import rospy
 from std_msgs.msg import Float64
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import PoseStamped
 from robot_localization.srv import SetPose
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from sensor_msgs.msg import PointCloud2, PointCloud
 
 class KissManager:
 
@@ -14,23 +15,36 @@ class KissManager:
         self.running = False
         self.proc = None
         self.last_pose_msg = None
+        self.path = Path()
 
         rospy.Subscriber("/point_ratio", Float64, self.callback)
         rospy.Subscriber("/odometry/filtered", Odometry, self.pose_callback)
 
         self.mode = rospy.get_param("~mode")
       
-        if self.mode == 'livox':
-            self.topic="/livox/points"
+        if self.mode == "livox":
+            self.topic = "/filtered_livox"
         else:
-            self.topic="/ouster/points"
+            self.topic = "/filtered_ouster"
 
-
+        self.path_pub = rospy.Publisher("ekf_trajectory",   Path, queue_size=10)
+            
+        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.15)
+        self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.70)
         rospy.on_shutdown(self.stop_kiss)
 
 
     def pose_callback(self, msg):
         self.last_pose_msg = msg
+        
+        pose = PoseStamped()
+        pose.header = msg.header
+        pose.pose = msg.pose.pose
+
+        self.path.header = msg.header
+        self.path.poses.append(pose)
+
+        self.path_pub.publish(self.path)
 
     def start_kiss(self):
         if self.running and self.proc is not None and self.proc.poll() is None:
@@ -97,10 +111,10 @@ class KissManager:
 
     def callback(self, msg):
 
-        if msg.data <= 0.1:
+        if msg.data <= self.stop_threshold:
             self.stop_kiss()
 
-        elif msg.data >= 0.7:
+        elif msg.data >= self.start_threshold:
             self.start_kiss()
 
 

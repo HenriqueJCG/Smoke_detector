@@ -22,6 +22,7 @@ class Point_Ratio:
         self.radar_points = 1
         self.lidar_points = 1
         self.max_points   = 1
+        self.running = True
 
         self.lidar_xyz = np.array([])
         self.radar_xyz = np.array([])
@@ -35,12 +36,14 @@ class Point_Ratio:
         self.mode = rospy.get_param("~mode")
 
         if self.mode == 'livox':
-            rospy.Subscriber("/radar_enhanced_pcl", PointCloud,  self.radar_callback)
-            rospy.Subscriber("/livox/lidar",         CustomMsg,   self.lidar_callback)
+            rospy.Subscriber("/radar_enhanced_pcl2", PointCloud2,  self.radar_callback)
+            rospy.Subscriber("/livox/points",        PointCloud2,   self.lidar_callback)
             self.MAX_RANGE = 260
             self.H_FOV     = 80.0
             self.V_FOV_MIN = -15.0
             self.V_FOV_MAX =  15.0
+            self.pub_lidar_pcl = rospy.Publisher("/filtered_livox",PointCloud2,queue_size=10)
+
         elif self.mode == 'ouster128':
             rospy.Subscriber("/ouster/points",               PointCloud2, self.lidar_callback)
             rospy.Subscriber("/oculii_radar/point_cloud",    PointCloud2, self.radar_callback)
@@ -48,6 +51,7 @@ class Point_Ratio:
             self.H_FOV     = 113.0
             self.V_FOV_MIN = -22.0
             self.V_FOV_MAX =  22.0
+            self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
         else:
             rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
             rospy.Subscriber("/ouster/points",          PointCloud2, self.lidar_callback)
@@ -55,6 +59,7 @@ class Point_Ratio:
             self.H_FOV     = 90.0
             self.V_FOV_MIN = -15.0
             self.V_FOV_MAX =  15.0
+            self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
 
         self.pub       = rospy.Publisher("point_ratio",   Float64, queue_size=10)
         self.pub_lidar = rospy.Publisher("lidar_points",  Float64, queue_size=10)
@@ -94,19 +99,24 @@ class Point_Ratio:
         fov_ratio = len(lidar_filtered) / max(len(radar_filtered), 1)
         fov_ratio = min(fov_ratio, 1.0)   # clamp to [0, 1]
 
-        prob = 0.5 * self._lidar_ratio + 0.5 * fov_ratio
+        self.prob = 0.5 * self._lidar_ratio + 0.5 * fov_ratio
 
-        self.pub.publish(prob)
+        if self.prob<0.3:
+            self.running=False
+        elif self.prob>0.3 and not self.running:
+            self.running=True
+
+        self.pub.publish(self.prob)
         self.pub_lidar.publish(float(self.lidar_points))
         self.pub_radar.publish(float(self.radar_points))
 
         t = rospy.Time.now().to_sec() - self.start_time
-        self.log.append([t, prob])
+        self.log.append([t, self.prob])
 
     # ------------------------------------------------------------------
 
     def radar_callback(self, msg):
-        if self.mode == 'livox':
+        if self.mode == 're':
             self.radar_points = len(msg.points)
             pts = [[p.x, p.y, p.z] for p in msg.points]
             self.radar_xyz = np.array(pts) if pts else np.array([]).reshape(0, 3)
@@ -117,7 +127,7 @@ class Point_Ratio:
         self.probability()
 
     def lidar_callback(self, msg):
-        if self.mode == 'livox':
+        if self.mode == 're':
             self.lidar_points = 1
             pts = []
             for p in msg.points:
@@ -132,6 +142,8 @@ class Point_Ratio:
             self.max_points   = msg.width * msg.height
 
         self.probability()
+        if self.running:
+             self.pub_lidar_pcl.publish(msg)
 
     # ------------------------------------------------------------------
 
