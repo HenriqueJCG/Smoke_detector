@@ -180,9 +180,9 @@ class Point_Ratio:
        #=================
        self._lidar_ratio = self.lidar_points / self.max_points
        
-       if self.prob<0.3:
+       if self.prob<0.2:
            self.running=False
-       elif self.prob>0.3 and not self.running:
+       elif self.prob>0.7 and not self.running:
            self.running=True
 
        if self.running:

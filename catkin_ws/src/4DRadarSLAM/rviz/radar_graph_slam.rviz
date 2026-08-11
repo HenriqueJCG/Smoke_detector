@@ -517,13 +517,13 @@ Visualization Manager:
       Unreliable: false
       Value: false
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /visualization_marker
       Name: Marker
       Namespaces:
-        radar_info: true
+        {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -580,7 +580,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 28.047740936279297
+      Distance: 54.097511291503906
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -588,17 +588,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: -2.6571576595306396
-        Y: 3.309603452682495
-        Z: -8.66532136569731e-05
+        X: -1.377450942993164
+        Y: -2.7343835830688477
+        Z: -8.997505210572854e-05
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5447974801063538
+      Pitch: 0.4547966420650482
       Target Frame: base_link
-      Yaw: 2.645456075668335
+      Yaw: 3.7804555892944336
     Saved:
       - Class: rviz/ThirdPersonFollower
         Distance: 53.36624526977539

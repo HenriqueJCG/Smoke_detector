@@ -12,7 +12,7 @@ from sensor_msgs.msg import PointCloud2, PointCloud
 class KissManager:
 
     def __init__(self): 
-        self.running = False
+        self.running = True
         self.proc = None
         self.last_pose_msg = None
         self.path = Path()
@@ -29,7 +29,7 @@ class KissManager:
 
         self.path_pub = rospy.Publisher("ekf_trajectory",   Path, queue_size=10)
             
-        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.15)
+        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.20)
         self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.70)
         rospy.on_shutdown(self.stop_kiss)
 
@@ -79,24 +79,7 @@ class KissManager:
             f"topic:={self.topic}"
         ])
 
-        if self.last_pose_msg is not None:
-            rospy.wait_for_service("/set_pose")
-
-            set_pose = rospy.ServiceProxy("/set_pose", SetPose)
-
-            msg = PoseWithCovarianceStamped()
-            msg.header = self.last_pose_msg.header
-            msg.pose = self.last_pose_msg.pose
-
-            msg.pose.covariance = [0.0] * 36
-            msg.pose.covariance[0] = 0.05    # x variance
-            msg.pose.covariance[7] = 0.05    # y variance
-            msg.pose.covariance[14] = 0.05   # z variance
-            msg.pose.covariance[21] = 0.05   # roll
-            msg.pose.covariance[28] = 0.05   # pitch
-            msg.pose.covariance[35] = 0.05   # yaw
-
-            set_pose(msg)
+        
 
         self.running = True
 

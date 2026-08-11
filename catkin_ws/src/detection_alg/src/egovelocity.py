@@ -14,7 +14,7 @@ class RadarEgoVelocity:
         
         self.doppler_field = rospy.get_param("~doppler_field", "doppler")
         self.min_points = rospy.get_param("~min_points", 10)
-        self.ransac_iterations = rospy.get_param("~ransac_iterations", 50)
+        self.ransac_iterations = rospy.get_param("~ransac_iterations", 17)
         self.inlier_threshold = rospy.get_param("~inlier_threshold", 0.15)  # m/s residual
         self.publish_filtered_cloud = rospy.get_param("~publish_filtered_cloud", False)
         self.integrate_position = rospy.get_param("~integrate_position", True)

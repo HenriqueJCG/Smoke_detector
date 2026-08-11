@@ -101,9 +101,9 @@ class Point_Ratio:
 
         self.prob = 0.5 * self._lidar_ratio + 0.5 * fov_ratio
 
-        if self.prob<0.3:
+        if self.prob<0.2:
             self.running=False
-        elif self.prob>0.3 and not self.running:
+        elif self.prob>0.7 and not self.running:
             self.running=True
 
         self.pub.publish(self.prob)

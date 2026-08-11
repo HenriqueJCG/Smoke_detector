@@ -2,7 +2,7 @@
 import numpy as np
 import rospy
 from nav_msgs.msg import Odometry
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 
 
 class SmokeGatedCovarianceNode(object):
@@ -14,15 +14,15 @@ class SmokeGatedCovarianceNode(object):
         self.lidar_odom_out_topic = rospy.get_param('lidar_odom_out_topic', '/odom/lidar')
         self.radar_odom_out_topic = rospy.get_param('radar_odom_out_topic', '/odom/radar')
 
-        self.lidar_trust_min = float(rospy.get_param('lidar_trust_min', 0.20))
-        self.radar_trust_min = float(rospy.get_param('radar_trust_min', 0.50))
+        self.lidar_trust_min = float(rospy.get_param('lidar_trust_min', 0.001))
+        self.radar_trust_min = float(rospy.get_param('radar_trust_min', 0.001))
         self.smoke_timeout = float(rospy.get_param('smoke_timeout_sec', 1.0))
 
         self.smoke_prob = 1.0  # assume good lidar until told otherwise
         self.lidar_on=True
         self.last_smoke_stamp = None
 
-        rospy.Subscriber(self.smoke_topic, Float32, self._smoke_cb, queue_size=10)
+        rospy.Subscriber(self.smoke_topic, Float64, self._smoke_cb, queue_size=10)
         rospy.Subscriber(self.lidar_odom_topic, Odometry, self._lidar_cb, queue_size=10)
         rospy.Subscriber(self.radar_odom_topic, Odometry, self._radar_cb, queue_size=10)
 
@@ -37,7 +37,6 @@ class SmokeGatedCovarianceNode(object):
 
         p = self.smoke_prob
         return self.lidar_trust_min + (1.0 - self.lidar_trust_min) * p
-        return 0.2 + 0.8/(1+np.exp(-10*(p-0.4)))
 
 
     def _radar_trust(self):

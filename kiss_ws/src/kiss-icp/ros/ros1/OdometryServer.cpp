@@ -171,10 +171,10 @@ void OdometryServer::PublishOdometry(const Sophus::SE3d &pose,
     odom_msg.pose.pose = tf2::sophusToPose(pose);
     odom_msg.pose.covariance[0] = 0.05;
     odom_msg.pose.covariance[7] = 0.05;
-    odom_msg.pose.covariance[14] = 0.05;
+    odom_msg.pose.covariance[14] = 0.5;
     odom_msg.pose.covariance[21] = 0.05;
     odom_msg.pose.covariance[28] = 0.05;
-    odom_msg.pose.covariance[35] = 0.05;
+    odom_msg.pose.covariance[35] = 0.5;
     odom_publisher_.publish(odom_msg);
 }
 

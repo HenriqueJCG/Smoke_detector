@@ -39,7 +39,7 @@ class RadarTextMarker:
         self._sensor_ratio = msg.data
 
         marker = Marker()
-        marker.header.frame_id = "base_link"
+        marker.header.frame_id = "odom"
         marker.header.stamp = rospy.Time.now()
 
         marker.ns = "radar_info"
