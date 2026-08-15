@@ -176,6 +176,12 @@ class RadarEgoVelocity:
         odom.twist.twist.linear.x = velocity[0]
         odom.twist.twist.linear.y = velocity[1]
         odom.twist.twist.linear.z = velocity[2]
+
+        # Fixed diagonal covariance for position (x, y, z) in the pose estimate
+        pose_cov = [0.0] * 36
+        pose_cov[0] = pose_cov[7] = pose_cov[14] = 0.05
+        odom.pose.covariance = pose_cov
+
         self.odom_pub.publish(odom)
 
     @staticmethod

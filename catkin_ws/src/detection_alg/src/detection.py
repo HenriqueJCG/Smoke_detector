@@ -43,6 +43,7 @@ class Point_Ratio:
             self.V_FOV_MIN = -15.0
             self.V_FOV_MAX =  15.0
             self.pub_lidar_pcl = rospy.Publisher("/filtered_livox",PointCloud2,queue_size=10)
+            self.pub_radar_pcl = rospy.Publisher("/filtered_oculii",PointCloud2,queue_size=10)
 
         elif self.mode == 'ouster128':
             rospy.Subscriber("/ouster/points",               PointCloud2, self.lidar_callback)
@@ -52,6 +53,7 @@ class Point_Ratio:
             self.V_FOV_MIN = -22.0
             self.V_FOV_MAX =  22.0
             self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
+            self.pub_radar_pcl = rospy.Publisher("/filtered_oculii",PointCloud2,queue_size=10)
         else:
             rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
             rospy.Subscriber("/ouster/points",          PointCloud2, self.lidar_callback)
@@ -60,6 +62,7 @@ class Point_Ratio:
             self.V_FOV_MIN = -15.0
             self.V_FOV_MAX =  15.0
             self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
+            self.pub_radar_pcl = rospy.Publisher("/filtered_hugin",PointCloud2,queue_size=10)
 
         self.pub       = rospy.Publisher("point_ratio",   Float64, queue_size=10)
         self.pub_lidar = rospy.Publisher("lidar_points",  Float64, queue_size=10)
@@ -125,6 +128,8 @@ class Point_Ratio:
             self.radar_xyz    = self.cloud2_to_xyz(msg)
 
         self.probability()
+        if not self.running:
+             self.pub_radar_pcl.publish(msg)
 
     def lidar_callback(self, msg):
         if self.mode == 're':

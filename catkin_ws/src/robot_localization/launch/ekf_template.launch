@@ -9,12 +9,30 @@
   <arg name="lidar" default="false"/>
   <arg name="egovelocity" default="false"/>
   <arg name="point_algorithm" default="fov"/>
-  <arg name="bag_rate" default="0.5"/>
+  <arg name="bag_rate" default="1.0"/>
   <arg name="stop_lidar_threshold" default="0.2"/>
   <arg name="start_lidar_threshold" default="0.7"/>
 
+  <param name="/kiss_icp/initial_pose_x"  value="0.0"/>
+  <param name="/kiss_icp/initial_pose_y"  value="0.0"/>
+  <param name="/kiss_icp/initial_pose_z"  value="0.0"/>
+
+  <param name="/kiss_icp/initial_pose_qx" value="0.0"/>
+  <param name="/kiss_icp/initial_pose_qy" value="0.0"/>
+  <param name="/kiss_icp/initial_pose_qz" value="0.0"/>
+  <param name="/kiss_icp/initial_pose_qw" value="1.0"/>
+
+  <param name="/genz_icp/initial_pose_x"  value="0.0"/>
+  <param name="/genz_icp/initial_pose_y"  value="0.0"/>
+  <param name="/genz_icp/initial_pose_z"  value="0.0"/>
+
+  <param name="/genz_icp/initial_pose_qx" value="0.0"/>
+  <param name="/genz_icp/initial_pose_qy" value="0.0"/>
+  <param name="/genz_icp/initial_pose_qz" value="0.0"/>
+  <param name="/genz_icp/initial_pose_qw" value="1.0"/>
+
   <!-- KISS-ICP odometry node 1 - oculii radar -->
-  <include if="$(arg radar)" file="$(find kiss_icp)/launch/odometry.launch">
+  <include if="$(arg radar)" file="$(find genz_icp)/launch/odometry.launch">
     <arg if="$(eval arg('dataset_type') == 'livox')" name="topic" value="/radar_enhanced_pcl2"/>
     <arg if="$(eval arg('dataset_type') == 'ouster')" name="topic" value="/hugin_raf_1/radar_data"/>
   </include>
@@ -43,12 +61,12 @@
     <node pkg="detection_alg" type="text_marker.py" name="text_marker_node" output="screen"/>
   </group>
 
-  
+  <!-- EKF node -->
   <group if="$(arg fusion)">
     <node pkg="detection_alg" type="covariances.py" name="covariance_node" output="screen">
       <param name="invert" value="True"/>
     </node>
-    <node pkg="detection_alg" type="restart_nodes.py" name="restart_node" output="screen"> 
+    <node pkg="detection_alg" type="restart_nodes2.py" name="restart_node" output="screen"> 
       <!-- Initializes genz by default -->
       <param name="mode" value="$(arg dataset_type)"/>
       <param name="stop_lidar_threshold" value="$(arg stop_lidar_threshold)"/>

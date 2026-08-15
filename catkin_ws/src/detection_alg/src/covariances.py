@@ -8,8 +8,8 @@ from std_msgs.msg import Float64
 class SmokeGatedCovarianceNode(object):
     def __init__(self):
         
-        self.lidar_odom_topic = rospy.get_param('lidar_odom_topic', '/genz/odometry')
-        self.radar_odom_topic = rospy.get_param('radar_odom_topic', '/kiss/odometry')
+        self.lidar_odom_topic = rospy.get_param('lidar_odom_topic', '/kiss/odometry')
+        self.radar_odom_topic = rospy.get_param('radar_odom_topic', '/genz/odometry')
         self.smoke_topic = rospy.get_param('smoke_topic', '/point_ratio')
         self.lidar_odom_out_topic = rospy.get_param('lidar_odom_out_topic', '/odom/lidar')
         self.radar_odom_out_topic = rospy.get_param('radar_odom_out_topic', '/odom/radar')

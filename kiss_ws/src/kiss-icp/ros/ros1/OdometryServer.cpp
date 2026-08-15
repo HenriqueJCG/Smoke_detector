@@ -71,6 +71,25 @@ OdometryServer::OdometryServer(const ros::NodeHandle &nh, const ros::NodeHandle 
     // Construct the main KISS-ICP odometry node
     odometry_ = kiss_icp::pipeline::KissICP(config_);
 
+    double init_x = 0.0, init_y = 0.0, init_z = 0.0;
+    double init_qx = 0.0, init_qy = 0.0, init_qz = 0.0, init_qw = 1.0;
+
+    ros::param::get("/kiss_icp/initial_pose_x", init_x);
+    ros::param::get("/kiss_icp/initial_pose_y", init_y);
+    ros::param::get("/kiss_icp/initial_pose_z", init_z);
+
+    ros::param::get("/kiss_icp/initial_pose_qx", init_qx);
+    ros::param::get("/kiss_icp/initial_pose_qy", init_qy);
+    ros::param::get("/kiss_icp/initial_pose_qz", init_qz);
+    ros::param::get("/kiss_icp/initial_pose_qw", init_qw);
+
+    Eigen::Quaterniond q(init_qw, init_qx, init_qy, init_qz);
+    q.normalize();
+
+    Sophus::SE3d initial_pose(q, Eigen::Vector3d(init_x, init_y, init_z));
+
+    odometry_.SetInitialPose(initial_pose);
+
     // Initialize subscribers
     pointcloud_sub_ = nh_.subscribe<sensor_msgs::PointCloud2>("pointcloud_topic", queue_size_,
                                                               &OdometryServer::RegisterFrame, this);

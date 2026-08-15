@@ -54,10 +54,12 @@ class Point_Ratio:
            rospy.Subscriber("/radar_enhanced_pcl2", PointCloud2,  self.radar_callback)
            rospy.Subscriber("/livox/points",        PointCloud2,   self.lidar_callback)
            self.pub_lidar_pcl = rospy.Publisher("/filtered_livox",PointCloud2,queue_size=10)
+
        elif self.mode == 'ouster128':
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
            rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
            self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
+
        else:
            rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
@@ -180,13 +182,13 @@ class Point_Ratio:
        #=================
        self._lidar_ratio = self.lidar_points / self.max_points
        
-       if self.prob<0.2:
+       if self.prob<0.15:
            self.running=False
-       elif self.prob>0.7 and not self.running:
+       elif self.prob>0.4 and not self.running:
            self.running=True
 
        if self.running:
-             self.pub_lidar_pcl.publish(msg)
+           self.pub_lidar_pcl.publish(msg)
 
    def save_csv(self):
        with open("visibility_log_kdtree.csv", "w") as f:
