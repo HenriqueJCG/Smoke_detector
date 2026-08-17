@@ -18,13 +18,23 @@ class RadarEgoVelocity:
         self.inlier_threshold = rospy.get_param("~inlier_threshold", 0.15)  # m/s residual
         self.publish_filtered_cloud = rospy.get_param("~publish_filtered_cloud", False)
         self.integrate_position = rospy.get_param("~integrate_position", True)
-
-        self.last_imu_quat = None  
+ 
         self.last_time = None
-        self.position = np.zeros(3)
+        self.position = np.array([
+            rospy.get_param("/radar_ego_velocity/initial_x", 0.0),
+            rospy.get_param("/radar_ego_velocity/initial_y", 0.0),
+            rospy.get_param("/radar_ego_velocity/initial_z", 0.0),
+        ])
 
+        self.last_imu_quat = (
+            rospy.get_param("/radar_ego_velocity/initial_qx", 0.0),
+            rospy.get_param("/radar_ego_velocity/initial_qy", 0.0),
+            rospy.get_param("/radar_ego_velocity/initial_qz", 0.0),
+            rospy.get_param("/radar_ego_velocity/initial_qw", 1.0),
+        )
 
-        self.mode = rospy.get_param("~mode")
+        
+        self.mode = rospy.get_param("~mode","ouster")
       
         if self.mode == 'livox':
             rospy.Subscriber("/radar_enhanced_pcl2", PointCloud2, self.cloud_callback, queue_size=1)

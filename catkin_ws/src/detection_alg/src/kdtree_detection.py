@@ -54,16 +54,19 @@ class Point_Ratio:
            rospy.Subscriber("/radar_enhanced_pcl2", PointCloud2,  self.radar_callback)
            rospy.Subscriber("/livox/points",        PointCloud2,   self.lidar_callback)
            self.pub_lidar_pcl = rospy.Publisher("/filtered_livox",PointCloud2,queue_size=10)
+           self.pub_radar_pcl = rospy.Publisher("/filtered_oculii",PointCloud2,queue_size=10)
 
        elif self.mode == 'ouster128':
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
            rospy.Subscriber("/oculii_radar/point_cloud", PointCloud2, self.radar_callback)
            self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
+           self.pub_radar_pcl = rospy.Publisher("/filtered_oculii",PointCloud2,queue_size=10)
 
        else:
            rospy.Subscriber("/hugin_raf_1/radar_data", PointCloud2, self.radar_callback)
            rospy.Subscriber("/ouster/points", PointCloud2, self.lidar_callback)
            self.pub_lidar_pcl = rospy.Publisher("/filtered_ouster",PointCloud2,queue_size=10)
+           self.pub_radar_pcl = rospy.Publisher("/filtered_hugin",PointCloud2,queue_size=10)
 
        self.pub = rospy.Publisher("point_ratio", Float64, queue_size=10)
        self.pub_lidar = rospy.Publisher("lidar_points", Float64, queue_size=10)
@@ -138,6 +141,8 @@ class Point_Ratio:
        self.pub.publish(self.prob)
        self.pub_lidar.publish(self.lidar_points)  
        self.pub_radar.publish(self.radar_points)
+       if not self.running:
+             self.pub_radar_pcl.publish(msg)
 
        t = rospy.Time.now().to_sec() - self.start_time
 

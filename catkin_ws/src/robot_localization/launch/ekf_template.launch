@@ -3,15 +3,15 @@
   <arg name="path" default="/home/Datasets/"/>
   <arg name="visualize" default="true"/>
 
-  <arg name="dataset_type" default="livox"/>
+  <arg name="dataset_type" default="ouster"/>
   <arg name="fusion" default="true"/>
-  <arg name="radar" default="true"/>
+  <arg name="radar" default="false"/>
   <arg name="lidar" default="false"/>
   <arg name="egovelocity" default="false"/>
-  <arg name="point_algorithm" default="fov"/>
+  <arg name="point_algorithm" default="kdtree"/>
   <arg name="bag_rate" default="1.0"/>
-  <arg name="stop_lidar_threshold" default="0.2"/>
-  <arg name="start_lidar_threshold" default="0.7"/>
+  <arg name="stop_lidar_threshold" default="0.15"/>
+  <arg name="start_lidar_threshold" default="0.4"/>
 
   <param name="/kiss_icp/initial_pose_x"  value="0.0"/>
   <param name="/kiss_icp/initial_pose_y"  value="0.0"/>
