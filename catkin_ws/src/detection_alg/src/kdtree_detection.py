@@ -16,6 +16,8 @@ from livox_ros_driver.msg import CustomMsg
 from scipy.spatial import cKDTree
 import numpy as np
 import atexit
+import tf2_ros
+from tf2_sensor_msgs.tf2_sensor_msgs import do_transform_cloud
 
 class Point_Ratio:
    def __init__(self):
@@ -47,6 +49,11 @@ class Point_Ratio:
        self._lidar_ratio = self.lidar_points / self.max_points
        self._sensor_ratio = self.lidar_points / self.radar_points
 
+       self.tf_buffer = tf2_ros.Buffer()
+       self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
+
+       self.base_frame = "base_link"
+
 
        self.mode = rospy.get_param("~mode")
       
@@ -74,6 +81,31 @@ class Point_Ratio:
 
 
        self.rate = rospy.Rate(10)
+
+
+   def transform_cloud(self, msg):
+       try:
+           transform = self.tf_buffer.lookup_transform(
+               self.base_frame,
+               msg.header.frame_id,
+               rospy.Time(0),
+               rospy.Duration(0.1)
+           )
+
+           return do_transform_cloud(msg, transform)
+
+       except (tf2_ros.LookupException,
+               tf2_ros.ConnectivityException,
+               tf2_ros.ExtrapolationException) as e:
+
+           rospy.logwarn_throttle(
+               2.0,
+               "Cannot transform %s -> %s: %s",
+               msg.header.frame_id,
+               self.base_frame,
+               str(e)
+           )
+           return None
 
 
    #=================
@@ -107,19 +139,23 @@ class Point_Ratio:
            return
        #=================
 
+       msg_base = self.transform_cloud(msg)
+
+       if msg_base is None:
+           return
 
        if self.mode == 're':
-           self.radar_points = len(msg.points)
+           self.radar_points = len(msg_base.points)
 
 
            #=================
-           for p in msg.points:
+           for p in msg_base.points:
                pts.append([p.x, p.y, p.z])
            #=================
   
        else:
-           self.radar_points = msg.width * msg.height
-           pts = self.cloud_to_xyz(msg)
+           self.radar_points = msg_base.width * msg_base.height
+           pts = self.cloud_to_xyz(msg_base)
 
 
        #=================
@@ -154,18 +190,23 @@ class Point_Ratio:
 
    def lidar_callback(self, msg):
        pts = []
+       msg_base = self.transform_cloud(msg)
+
+       if msg_base is None:
+           return
+
        if self.mode == 're':
            self.lidar_points = 1
 
 
-           for p in msg.points:
+           for p in msg_base.points:
                if p.reflectivity > 0:
                    self.lidar_points += 1
 
                pts.append([p.x, p.y, p.z]) #=================
 
 
-           self.max_points = msg.point_num
+           self.max_points = msg_base.point_num
        else:
 
 
@@ -174,7 +215,7 @@ class Point_Ratio:
 
 
            #=================
-           pts = self.cloud_to_xyz(msg)
+           pts = self.cloud_to_xyz(msg_base)
        if len(pts) == 0:
            return
 
@@ -187,7 +228,7 @@ class Point_Ratio:
        #=================
        self._lidar_ratio = self.lidar_points / self.max_points
        
-       if self.prob<0.15:
+       if self.prob<0.1:
            self.running=False
        elif self.prob>0.4 and not self.running:
            self.running=True

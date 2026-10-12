@@ -8,11 +8,11 @@ from std_msgs.msg import Float64
 class SmokeGatedCovarianceNode(object):
     def __init__(self):
         
-        self.lidar_odom_topic = rospy.get_param('lidar_odom_topic', '/kiss/odometry')
-        self.radar_odom_topic = rospy.get_param('radar_odom_topic', '/genz/odometry')
+        self.lidar_odom_topic = rospy.get_param('lidar_odom_topic', '/genz/odometry')
+        self.radar_odom_topic = rospy.get_param('radar_odom_topic', '/kiss/odometry')
         self.smoke_topic = rospy.get_param('smoke_topic', '/point_ratio')
-        self.lidar_odom_out_topic = rospy.get_param('lidar_odom_out_topic', '/odom/lidar')
-        self.radar_odom_out_topic = rospy.get_param('radar_odom_out_topic', '/odom/radar')
+        self.lidar_odom_out_topic = rospy.get_param('lidar_odom_out_topic', '/odom/radar')
+        self.radar_odom_out_topic = rospy.get_param('radar_odom_out_topic', '/odom/lidar')
 
         self.lidar_trust_min = float(rospy.get_param('lidar_trust_min', 0.001))
         self.radar_trust_min = float(rospy.get_param('radar_trust_min', 0.001))
@@ -45,12 +45,12 @@ class SmokeGatedCovarianceNode(object):
         return self.radar_trust_min + (1.0 - self.radar_trust_min) * (1.0 - p)
 
     def _lidar_cb(self, msg):
-        if self.smoke_prob < 0.2:
+        if self.smoke_prob < 0.1:
             # severe degeneracy: don't fuse lidar at all this cycle
             self.lidar_on=False
             return
         
-        if self.smoke_prob > 0.7 and self.lidar_on==False:
+        if self.smoke_prob > 0.4 and self.lidar_on==False:
             self.lidar_on=True
 
         if self.lidar_on:

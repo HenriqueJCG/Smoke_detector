@@ -9,7 +9,7 @@ from robot_localization.srv import SetPose
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from sensor_msgs.msg import PointCloud2, PointCloud
 
-class KissManager:
+class Manager:
 
     def __init__(self): 
         self.running = True
@@ -29,8 +29,8 @@ class KissManager:
 
         self.path_pub = rospy.Publisher("ekf_trajectory",   Path, queue_size=10)
             
-        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.20)
-        self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.70)
+        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.0)
+        self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.60)
         rospy.on_shutdown(self.stop_kiss)
 
 
@@ -46,44 +46,42 @@ class KissManager:
 
         self.path_pub.publish(self.path)
 
-    def start_kiss(self):
+    def start(self):
         if self.running and self.proc is not None and self.proc.poll() is None:
             return
 
         if self.last_pose_msg is None:
 
-            rospy.set_param("/kiss_icp/initial_pose_x", 0.0)
-            rospy.set_param("/kiss_icp/initial_pose_y", 0.0)
-            rospy.set_param("/kiss_icp/initial_pose_z", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_x", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_y", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_z", 0.0)
 
-            rospy.set_param("/kiss_icp/initial_pose_qx", 0.0)
-            rospy.set_param("/kiss_icp/initial_pose_qy", 0.0)
-            rospy.set_param("/kiss_icp/initial_pose_qz", 0.0)
-            rospy.set_param("/kiss_icp/initial_pose_qw", 1.0)
+            rospy.set_param("/genz_icp/initial_pose_qx", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_qy", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_qz", 0.0)
+            rospy.set_param("/genz_icp/initial_pose_qw", 1.0)
         else:
             pose = self.last_pose_msg.pose.pose
 
-            rospy.set_param("/kiss_icp/initial_pose_x", pose.position.x)
-            rospy.set_param("/kiss_icp/initial_pose_y", pose.position.y)
-            rospy.set_param("/kiss_icp/initial_pose_z", pose.position.z)
+            rospy.set_param("/genz_icp/initial_pose_x", pose.position.x)
+            rospy.set_param("/genz_icp/initial_pose_y", pose.position.y)
+            rospy.set_param("/genz_icp/initial_pose_z", pose.position.z)
 
-            rospy.set_param("/kiss_icp/initial_pose_qx", pose.orientation.x)
-            rospy.set_param("/kiss_icp/initial_pose_qy", pose.orientation.y)
-            rospy.set_param("/kiss_icp/initial_pose_qz", pose.orientation.z)
-            rospy.set_param("/kiss_icp/initial_pose_qw", pose.orientation.w)
+            rospy.set_param("/genz_icp/initial_pose_qx", pose.orientation.x)
+            rospy.set_param("/genz_icp/initial_pose_qy", pose.orientation.y)
+            rospy.set_param("/genz_icp/initial_pose_qz", pose.orientation.z)
+            rospy.set_param("/genz_icp/initial_pose_qw", pose.orientation.w)
 
         self.proc = subprocess.Popen([
             "roslaunch",
-            "kiss_icp",
+            "genz_icp",
             "odometry.launch",
             f"topic:={self.topic}"
         ])
 
-        
-
         self.running = True
 
-    def stop_kiss(self):
+    def stop(self):
         if not self.running:
             return
     
@@ -95,17 +93,17 @@ class KissManager:
     def callback(self, msg):
 
         if msg.data <= self.stop_threshold:
-            self.stop_kiss()
+            self.stop()
 
         elif msg.data >= self.start_threshold:
-            self.start_kiss()
+            self.start()
 
 
 if __name__ == "__main__":
-    rospy.init_node("kiss_manager")
+    rospy.init_node("manager")
 
-    manager = KissManager()
+    manager = Manager()
 
-    manager.start_kiss()
+    manager.start()
 
     rospy.spin()

@@ -9,7 +9,7 @@ from robot_localization.srv import SetPose
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from sensor_msgs.msg import PointCloud2, PointCloud
 
-class KissManager:
+class Manager:
 
     def __init__(self): 
         self.running = True
@@ -22,6 +22,7 @@ class KissManager:
         rospy.Subscriber("/odometry/filtered", Odometry, self.pose_callback)
         rospy.Subscriber("/kiss/odometry", Odometry, self.radar_pose_callback)
         rospy.Subscriber("/genz/odometry", Odometry, self.lidar_pose_callback)
+        rospy.Subscriber("/radar/odometry_dead_reckoned", Odometry, self.ego_pose_callback)
 
 
         self.mode = rospy.get_param("~mode")
@@ -35,10 +36,10 @@ class KissManager:
 
         self.path_pub = rospy.Publisher("ekf_trajectory",   Path, queue_size=10)
             
-        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.20)
-        self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.70)
-        rospy.on_shutdown(self.stop_kiss)
-        rospy.on_shutdown(self.stop_genz)
+        self.stop_threshold = rospy.get_param("~stop_lidar_threshold", 0.10)
+        self.start_threshold = rospy.get_param("~start_lidar_threshold", 0.6)
+        rospy.on_shutdown(self.stop_lidar)
+        rospy.on_shutdown(self.stop_radar)
 
 
     def pose_callback(self, msg):
@@ -55,12 +56,14 @@ class KissManager:
     def radar_pose_callback(self, msg):
         self.last_pose_msg = msg
 
-
     def lidar_pose_callback(self, msg):
         self.last_pose_msg = msg
-        
 
-    def start_kiss(self):
+    def ego_pose_callback(self, msg):
+        self.last_pose_msg = msg
+
+
+    def start_lidar(self):
         if self.running and self.proc is not None and self.proc.poll() is None:
             return
 
@@ -97,7 +100,7 @@ class KissManager:
 
         self.running = True
 
-    def stop_kiss(self):
+    def stop_lidar(self):
         if self.proc is not None and self.proc.poll() is None:
             self.proc.kill()
             self.proc.wait()
@@ -109,7 +112,7 @@ class KissManager:
 
 
 
-    def start_genz(self):
+    def start_radar(self):
         if not self.running and self.proc2 is not None and self.proc2.poll() is None:
             return
         if self.mode == "ouster":
@@ -168,7 +171,7 @@ class KissManager:
 
         self.running = False
 
-    def stop_genz(self):
+    def stop_radar(self):
         if self.proc2 is not None and self.proc2.poll() is None:
             self.proc2.kill()
             self.proc2.wait()
@@ -181,20 +184,20 @@ class KissManager:
     def callback(self, msg):
 
         if msg.data <= self.stop_threshold:
-            self.stop_kiss()
-            self.start_genz()
+            self.stop_lidar()
+            self.start_radar()
 
         elif msg.data >= self.start_threshold:
-            self.stop_genz()
-            self.start_kiss()
+            self.stop_radar()
+            self.start_lidar()
 
 
 if __name__ == "__main__":
-    rospy.init_node("kiss_manager")
+    rospy.init_node("manager")
 
-    manager = KissManager()
+    manager = Manager()
 
-    manager.start_kiss()
-    manager.stop_genz()
+    manager.start_lidar()
+    manager.stop_radar()
 
     rospy.spin()

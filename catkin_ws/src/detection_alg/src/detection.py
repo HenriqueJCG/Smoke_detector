@@ -13,6 +13,8 @@ from sensor_msgs.msg import PointCloud2, PointCloud
 from std_msgs.msg import Float64
 import sensor_msgs.point_cloud2 as pc2
 from livox_ros_driver.msg import CustomMsg
+import tf2_ros
+from tf2_sensor_msgs.tf2_sensor_msgs import do_transform_cloud
 
 
 class Point_Ratio:
@@ -33,6 +35,11 @@ class Point_Ratio:
         self._lidar_ratio  = 1.0
         self._sensor_ratio = 1.0
 
+        self.tf_buffer = tf2_ros.Buffer()
+        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer)
+
+        self.base_frame = "base_link"
+
         self.mode = rospy.get_param("~mode")
 
         if self.mode == 'livox':
@@ -48,7 +55,7 @@ class Point_Ratio:
         elif self.mode == 'ouster128':
             rospy.Subscriber("/ouster/points",               PointCloud2, self.lidar_callback)
             rospy.Subscriber("/oculii_radar/point_cloud",    PointCloud2, self.radar_callback)
-            self.MAX_RANGE = 200 #78 Hugin
+            self.MAX_RANGE = 200 
             self.H_FOV     = 113.0
             self.V_FOV_MIN = -22.0
             self.V_FOV_MAX =  22.0
@@ -69,6 +76,29 @@ class Point_Ratio:
         self.pub_radar = rospy.Publisher("radar_points",  Float64, queue_size=10)
 
     # ------------------------------------------------------------------
+
+    def transform_cloud_to_base(self, msg):
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                self.base_frame,
+                msg.header.frame_id,
+                rospy.Time(0),
+                rospy.Duration(0.1)
+            )
+
+            return do_transform_cloud(msg, transform)
+
+        except (tf2_ros.LookupException,
+                tf2_ros.ConnectivityException,
+                tf2_ros.ExtrapolationException) as e:
+            rospy.logwarn_throttle(
+                2.0,
+                "Could not transform %s -> %s: %s",
+                msg.header.frame_id,
+                self.base_frame,
+                str(e)
+            )
+            return None
 
     def filter_by_fov_and_range(self, pts):
         if len(pts) == 0:
@@ -104,9 +134,9 @@ class Point_Ratio:
 
         self.prob = 0.5 * self._lidar_ratio + 0.5 * fov_ratio
 
-        if self.prob<0.2:
+        if self.prob<0.1:
             self.running=False
-        elif self.prob>0.7 and not self.running:
+        elif self.prob>0.5 and not self.running:
             self.running=True
 
         self.pub.publish(self.prob)
@@ -119,23 +149,28 @@ class Point_Ratio:
     # ------------------------------------------------------------------
 
     def radar_callback(self, msg):
+        msg_base = self.transform_cloud_to_base(msg)
+
+
         if self.mode == 're':
-            self.radar_points = len(msg.points)
-            pts = [[p.x, p.y, p.z] for p in msg.points]
+            self.radar_points = len(msg_base.points)
+            pts = [[p.x, p.y, p.z] for p in msg_base.points]
             self.radar_xyz = np.array(pts) if pts else np.array([]).reshape(0, 3)
         else:
-            self.radar_points = msg.width * msg.height
-            self.radar_xyz    = self.cloud2_to_xyz(msg)
+            self.radar_points = msg_base.width * msg_base.height
+            self.radar_xyz    = self.cloud2_to_xyz(msg_base)
 
         self.probability()
         if not self.running:
              self.pub_radar_pcl.publish(msg)
 
     def lidar_callback(self, msg):
+        msg_base = self.transform_cloud_to_base(msg)
+
         if self.mode == 're':
             self.lidar_points = 1
             pts = []
-            for p in msg.points:
+            for p in msg_base.points:
                 if p.reflectivity > 0:
                     self.lidar_points += 1
                 pts.append([p.x, p.y, p.z])
@@ -143,7 +178,7 @@ class Point_Ratio:
             self.lidar_xyz  = np.array(pts) if pts else np.array([]).reshape(0, 3)
         else:
             self.lidar_xyz    = self.cloud2_to_xyz(msg)
-            self.lidar_points = len(self.lidar_xyz)
+            self.lidar_points = sum( 1 for p in pc2.read_points(msg, field_names=("x","y","z")) if not (p[0] == 0 and p[1] == 0 and p[2] == 0))
             self.max_points   = msg.width * msg.height
 
         self.probability()
